@@ -1,10 +1,11 @@
-package com.antoniomy82.moviesdb_challenge.model
+package com.antoniomy82.moviesdb_challenge.model.network
 
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.antoniomy82.moviesdb_challenge.model.Movie
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,22 +13,20 @@ import java.util.*
 
 class MovieDbRepository {
 
-    private val apiAdapter=ApiAdapter().api
+    private val apiAdapter= ApiAdapter().api
     val retrieveMovie = MutableLiveData<Movie>()
     val retrieveMovies = MutableLiveData<MoviesList>()
 
-    fun getTopRatedMovies(context:Context): MutableLiveData<Movie> {
 
-        return mCallback(apiAdapter?.getTopRatedMovies(),context)
-    }
 
     fun getPopularMovies(context:Context): MutableLiveData<MoviesList> {
 
         return listCallback(apiAdapter?.getPopularMovies(),context)
     }
 
-    fun getUpcomingMovies(): Call<Movie>?{
-        return apiAdapter?.getUpComingMovies()
+
+    fun getSearchMovies(search:String, context:Context):MutableLiveData<MoviesList>{
+        return listCallback(apiAdapter?.getSearchMovies(search), context)
     }
 
     fun getMovieDetails(context:Context, movieId:Int): LiveData<Movie>{
@@ -38,9 +37,16 @@ class MovieDbRepository {
         return apiAdapter?.getMovieVideos(movieId)
     }
 
-    fun getSearchMovies(search:String):Call<Movie>?{
-        return apiAdapter?.getSearchMovies(search)
+    fun getTopRatedMovies(context:Context): MutableLiveData<Movie> {
+
+        return mCallback(apiAdapter?.getTopRatedMovies(),context)
     }
+
+    fun getUpcomingMovies(): Call<Movie>?{
+        return apiAdapter?.getUpComingMovies()
+    }
+
+
 
 
     private fun mCallback(call: Call<Movie>?, context: Context): MutableLiveData<Movie>{
@@ -48,7 +54,7 @@ class MovieDbRepository {
         call?.enqueue(object : Callback<Movie> {
             override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
 
-                var mResponse: Movie ?=null
+                var mResponse: Movie?=null
                 val defaultLanguage: Locale = Locale.getDefault()
 
                 Log.d("Response", defaultLanguage.toString())

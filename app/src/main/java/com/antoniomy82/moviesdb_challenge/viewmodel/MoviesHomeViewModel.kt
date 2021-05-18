@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.antoniomy82.moviesdb_challenge.R
 import com.antoniomy82.moviesdb_challenge.databinding.FragmentBaseBinding
 import com.antoniomy82.moviesdb_challenge.model.Movie
+import com.antoniomy82.moviesdb_challenge.model.database.LocalDbRepository
+import com.antoniomy82.moviesdb_challenge.model.network.MovieDbRepository
 import com.antoniomy82.moviesdb_challenge.ui.MoviesListAdapter
+import com.antoniomy82.moviesdb_challenge.utils.CommonUtil
 import java.lang.ref.WeakReference
 
 class MoviesHomeViewModel : ViewModel() {
@@ -21,11 +24,13 @@ class MoviesHomeViewModel : ViewModel() {
     private var frgBaseContext: WeakReference<Context>? = null
     private var frgBaseView: WeakReference<View>? = null
     private var mainBundle: Bundle? = null
-    private var fragmentBaseBinding: FragmentBaseBinding ?=null
+    private var fragmentBaseBinding: FragmentBaseBinding?=null
 
 
     private var recyclerView: WeakReference<RecyclerView>? = null
     var isFavourite: Boolean = false
+    private val localRepository = LocalDbRepository()
+    val networkRepository = MovieDbRepository()
 
     //Set Base fragment parameters in this VM
     fun setBaseFragmentBinding(
@@ -41,6 +46,7 @@ class MoviesHomeViewModel : ViewModel() {
         this.mainBundle = mainBundle
         this.fragmentBaseBinding=fragmentBaseBinding
     }
+
 
 
     //Set Recipes List in RecyclerView
@@ -67,10 +73,39 @@ class MoviesHomeViewModel : ViewModel() {
 
     fun makeFavoriteButton(mMovie: Movie) {
 
-        Toast.makeText(frgBaseContext?.get(), "Recipe saved in favorite list", Toast.LENGTH_LONG)
+        Toast.makeText(frgBaseContext?.get(), "Movie saved in favorite list", Toast.LENGTH_LONG)
             .show()
 
-     //   frgMainContext?.get()?.let { mRepository.insertRecipe(it, mRecipe) }
+       frgBaseContext?.get()?.let { localRepository.insertMovie(it, mMovie) }
+
+    }
+
+
+    fun searchMovieButton() {
+
+        val lastSearch = fragmentBaseBinding?.etSearch?.text.toString()
+
+        //Hide keyboard
+        frgBaseContext?.get()?.let {
+            frgBaseView?.get()?.let { it1 ->
+                CommonUtil.hideKeyboard(
+                    it,
+                    it1
+                )
+            }
+        }
+
+        //Show progress bar
+        fragmentBaseBinding?.progressBar?.visibility = View.VISIBLE
+
+        //Call to network repository to retrieve data
+        frgBaseContext?.get()?.let { it1 ->
+            if (CommonUtil.isOnline(it1)) networkRepository.getSearchMovies(lastSearch, it1)
+            else {
+                Toast.makeText(it1, "No internet connection",Toast.LENGTH_LONG).show()
+                fragmentBaseBinding?.progressBar?.visibility = View.GONE
+            }
+        }
 
     }
 

@@ -30,7 +30,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/recipes_title_layout"
+            android:id="@+id/movies_title_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/medium_grey"
@@ -44,6 +44,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="0.3"
+                android:onClick="@{()->moviesHomeVM.searchMovieButton()}"
                 android:text="@string/btnSearch" />
 
             <android.widget.EditText
@@ -61,7 +62,6 @@
                 android:paddingRight="10dp" />
 
         </LinearLayout>
-
 
         <android.widget.ProgressBar
             android:id="@+id/progressBar"

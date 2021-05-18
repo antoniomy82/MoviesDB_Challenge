@@ -3,4 +3,6 @@
     <string name="title_bar">MOVIES</string>
     <string name="btnSearch">Search</string>
     <string name="btnMakeFavorite">Make favorite</string>
+    <string name="topMovies">Top Movies</string>
+    <string name="favouriteMov">Favourites</string>
 </resources>

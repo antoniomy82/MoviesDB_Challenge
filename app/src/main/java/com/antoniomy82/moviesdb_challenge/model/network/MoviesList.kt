@@ -1,4 +1,6 @@
-package com.antoniomy82.moviesdb_challenge.model
+package com.antoniomy82.moviesdb_challenge.model.network
+
+import com.antoniomy82.moviesdb_challenge.model.Movie
 
 data class MoviesList(
     var page:Int?=0,

@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Load base fragment
-        CommonUtil.replaceFragment(BaseFragment(),supportFragmentManager)
+       CommonUtil.replaceFragment(BaseFragment(),supportFragmentManager)
+       // CommonUtil.replaceFragment(TabLayoutFragment(),supportFragmentManager)
     }
 
 

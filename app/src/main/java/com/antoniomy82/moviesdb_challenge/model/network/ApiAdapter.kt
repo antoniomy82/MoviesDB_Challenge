@@ -1,4 +1,4 @@
-package com.antoniomy82.moviesdb_challenge.model
+package com.antoniomy82.moviesdb_challenge.model.network
 
 import com.antoniomy82.moviesdb_challenge.utils.Constant
 import okhttp3.OkHttpClient
