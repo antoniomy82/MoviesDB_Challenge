@@ -6,5 +6,35 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="red">#FF0000</color>
+
+
+    <!--Movies color palette-->
+    <color name="light_gray_background">#E3E3E3</color>
+    <color name="gray_bottom_bar">#676767</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="image_likes_color">#C1C1C1</color>
+    <color name="text_likes_color">#BFBFBF</color>
+    <color name="normal_text_color">#3A3A3A</color>
+    <color name="sort_by_bar">#202020</color>
+    <color name="district_bar">#3A3A3A</color>
+    <color name="primary_color">#CCCCCC</color>
+    <color name="orange">#f35412</color>
+    <color name="title_text">#666666</color>
+
+
+    <!-- Big sur Monochromatic Color -->
+    <color name="soft_light_blue">#dce6ee</color>
+    <color name="medium_light_blue">#b9cede</color>
+    <color name="soft_blue">#96b5ce</color>
+    <color name="medium_blue">#739dbe</color>
+
+    <!--Grey big sur-->
+    <color name="soft_light_grey">#c7c7c7</color>
+    <color name="medium_light_grey">#c5c7c9</color>
+    <color name="soft_grey">#c0c8ce</color>
+    <color name="medium_grey">#bcc8d2</color>
+    <color name="background_blue">#b2cadc</color>
+    <color name="back_recycler">#96b5ce</color>
+
 </resources>

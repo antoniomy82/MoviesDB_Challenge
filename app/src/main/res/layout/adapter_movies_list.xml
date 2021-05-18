@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="moviesVM"
+            type="com.antoniomy82.moviesdb_challenge.viewmodel.MoviesHomeViewModel" />
+
+        <variable
+            name="mMovie"
+            type="com.antoniomy82.moviesdb_challenge.model.Movie" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_rounded_black"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_movie"
+                android:layout_width="426dp"
+                android:layout_height="320dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/image_bg_rounded"
+                android:src="@mipmap/no_image_foreground"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/title_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="3"
+                    android:text="@{mMovie.title}"
+                    android:textColor="@color/normal_text_color"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <android.widget.Button
+                    android:id="@+id/btnMakeFavorite"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:textColor="@color/white"
+                    android:fontFamily="sans-serif"
+                    android:background="@drawable/button_bg_rounded"
+                    android:text="@string/btnMakeFavorite" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ingredients_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.02"
+                android:maxLines="3"
+                android:text="@{mMovie.overview}"
+                android:textColor="@color/normal_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

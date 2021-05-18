@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MoviesDB_Challenge</string>
+    <string name="title_bar">MOVIES</string>
+    <string name="btnSearch">Search</string>
+    <string name="btnMakeFavorite">Make favorite</string>
 </resources>
