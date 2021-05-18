@@ -31,6 +31,7 @@ class MoviesHomeViewModel : ViewModel() {
     var isFavourite: Boolean = false
     private val localRepository = LocalDbRepository()
     val networkRepository = MovieDbRepository()
+    var isTopSelected=true
 
     //Set Base fragment parameters in this VM
     fun setBaseFragmentBinding(

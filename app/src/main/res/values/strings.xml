@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MoviesDB_Challenge</string>
-    <string name="title_bar">MOVIES</string>
+    <string name="title_bar">Gigimovies App</string>
     <string name="btnSearch">Search</string>
     <string name="btnMakeFavorite">Make favorite</string>
-    <string name="topMovies">Top Movies</string>
-    <string name="favouriteMov">Favourites</string>
+    <string name="topMovies">TOP MOVIES</string>
+    <string name="favouriteMov">FAVOURITES</string>
 </resources>

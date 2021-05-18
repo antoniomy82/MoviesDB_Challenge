@@ -37,34 +37,6 @@ class BaseFragment : Fragment() {
         moviesHomeViewModel = ViewModelProvider(this).get(MoviesHomeViewModel::class.java)
         fragmentBaseBinding?.moviesHomeVM=moviesHomeViewModel
 
-/*
-        val viewPager: ViewPager?= fragmentBaseBinding?.viewPager
-        val tabLayout: TabLayout?= fragmentBaseBinding?.tabLayout
-
-        tabLayout?.setupWithViewPager(viewPager)
-
-        val adapterPager: ViewPageAdapter?= tabLayout?.tabCount?.let {
-            ViewPageAdapter(
-                childFragmentManager,
-                it
-            )
-        }
-
-        viewPager?.adapter=adapterPager
-
-        tabLayout?.addTab(tabLayout.newTab().setText(R.string.topMovies))
-        tabLayout?.addTab(tabLayout.newTab().setText(R.string.favouriteMov))
-        viewPager?.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
-        tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager?.currentItem = tab.position
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-*/
-
         //Set base fragment parameters in this VM
         activity?.let { context?.let { it1 ->
             fragmentBaseBinding?.let { it2 ->
@@ -82,8 +54,11 @@ class BaseFragment : Fragment() {
         moviesHomeViewModel?.networkRepository?.retrieveMovies?.observe(viewLifecycleOwner) { retrieveMovies ->
 
             if (retrieveMovies == null)  Toast.makeText(context,"No data found", Toast.LENGTH_LONG).show()
-            else retrieveMovies.results?.let { moviesHomeViewModel?.setMoviesRecyclerViewAdapter(it) }
+            else {
+                retrieveMovies.results?.let { moviesHomeViewModel?.setMoviesRecyclerViewAdapter(it) }
 
+                fragmentBaseBinding?.tabTop?.setBackgroundResource(R.drawable.bg_rounded_selected)
+            }
             //hide progress bar
             fragmentBaseBinding?.progressBar?.visibility = View.GONE
         }

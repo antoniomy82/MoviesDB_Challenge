@@ -7,15 +7,13 @@ import com.antoniomy82.moviesdb_challenge.utils.CommonUtil
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //Load base fragment
-       CommonUtil.replaceFragment(BaseFragment(),supportFragmentManager)
-       // CommonUtil.replaceFragment(TabLayoutFragment(),supportFragmentManager)
+        CommonUtil.replaceFragment(BaseFragment(),supportFragmentManager)
     }
-
-
 
 }

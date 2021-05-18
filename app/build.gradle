@@ -61,4 +61,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1" //LiveData
     implementation 'androidx.recyclerview:recyclerview:1.2.0' //RecyclerView
     implementation 'com.squareup.picasso:picasso:2.71828' //Picasso
+    implementation 'androidx.viewpager2:viewpager2:1.0.0' //ViewPager
 }
