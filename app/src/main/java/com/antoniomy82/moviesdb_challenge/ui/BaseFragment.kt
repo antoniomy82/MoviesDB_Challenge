@@ -35,46 +35,59 @@ class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         moviesHomeViewModel = ViewModelProvider(this).get(MoviesHomeViewModel::class.java)
-        fragmentBaseBinding?.moviesHomeVM=moviesHomeViewModel
+        fragmentBaseBinding?.moviesHomeVM = moviesHomeViewModel
 
         //Set base fragment parameters in this VM
-        activity?.let { context?.let { it1 ->
-            fragmentBaseBinding?.let { it2 ->
-                moviesHomeViewModel?.setBaseFragmentBinding(it,
-                    it1,view,savedInstanceState, it2
-                )
+        activity?.let {
+            context?.let { it1 ->
+                fragmentBaseBinding?.let { it2 ->
+                    moviesHomeViewModel?.setBaseFragmentBinding(
+                        it,
+                        it1, view, savedInstanceState, it2
+                    )
+                }
             }
-        } }
+        }
 
         //Load saved list
-        context?.let { moviesHomeViewModel?.savedList?.let { it1 ->
-            moviesHomeViewModel?.localRepository?.getSavedMovies(it,
-                it1
-            )
-        } }
+        context?.let {
+            moviesHomeViewModel?.savedList?.let { it1 ->
+                moviesHomeViewModel?.localRepository?.getSavedMovies(
+                    it,
+                    it1
+                )
+            }
+        }
 
-        moviesHomeViewModel?.savedList?.observe(viewLifecycleOwner){listSaved->
-            if (listSaved.isNotEmpty()){
-                moviesHomeViewModel?.savedMovies= listSaved as MutableList<String>
+        moviesHomeViewModel?.savedList?.observe(viewLifecycleOwner) { listSaved ->
+            if (listSaved.isNotEmpty()) {
+                moviesHomeViewModel?.savedMovies = listSaved as MutableList<String>
             }
 
         }
 
         //Call to networkRepository to show Top movies.
-        if(moviesHomeViewModel?.isTopSelected==true)  context?.let { moviesHomeViewModel?.retrieveNetworkMovies?.let { it1 ->
-
-            moviesHomeViewModel?.networkRepository?.getPopularMovies(it,
-                it1
-            )
-        } }
+        if (moviesHomeViewModel?.isTopSelected == true) context?.let {
+            moviesHomeViewModel?.retrieveNetworkMovies?.let { it1 ->
+                moviesHomeViewModel?.networkRepository?.getPopularMovies(
+                    it,
+                    it1
+                )
+            }
+        }
 
         //Observer to load Top Movies in recycler view
         moviesHomeViewModel?.retrieveNetworkMovies?.observe(viewLifecycleOwner) { retrieveMovies ->
 
-            if (retrieveMovies == null)  Toast.makeText(context,"No data found", Toast.LENGTH_LONG).show()
+            if (retrieveMovies == null) Toast.makeText(context, "No data found", Toast.LENGTH_LONG)
+                .show()
             else {
 
-                if(moviesHomeViewModel?.isFavourite==false) moviesHomeViewModel?.lastMoviesList=retrieveMovies //Save last top list
+                val pageIndicator = retrieveMovies.page + " / " + retrieveMovies.total_pages
+                fragmentBaseBinding?.pageIndicator?.text = pageIndicator
+
+                if (moviesHomeViewModel?.isFavourite == false) moviesHomeViewModel?.lastMoviesList =
+                    retrieveMovies //Save last top list
 
                 retrieveMovies.results?.let { moviesHomeViewModel?.setMoviesRecyclerViewAdapter(it) }
 
@@ -88,9 +101,13 @@ class BaseFragment : Fragment() {
 
 
         //Observer to load Favourites movies in recycler view
-        moviesHomeViewModel?.savedFavouritesMovies?.observe(viewLifecycleOwner){retrieveSavedMovies->
-            if (retrieveSavedMovies==null) Toast.makeText(context,"No saved movies found", Toast.LENGTH_LONG).show()
-            else{
+        moviesHomeViewModel?.savedFavouritesMovies?.observe(viewLifecycleOwner) { retrieveSavedMovies ->
+            if (retrieveSavedMovies == null) Toast.makeText(
+                context,
+                "No saved movies found",
+                Toast.LENGTH_LONG
+            ).show()
+            else {
                 moviesHomeViewModel?.setMoviesRecyclerViewAdapter(retrieveSavedMovies)
 
                 //It change button background

@@ -166,18 +166,20 @@ class MoviesHomeViewModel : ViewModel() {
         isTopSelected = false
         frgBaseContext?.get()?.let { localRepository.getAllMovies(it, savedFavouritesMovies) }
         fragmentBaseBinding?.searchLayout?.visibility = View.GONE
+        fragmentBaseBinding?.pageIndicatorLayout?.visibility=View.GONE
     }
 
     fun goToTopMovies() {
         isTopSelected = true
-
         fragmentBaseBinding?.searchLayout?.visibility = View.VISIBLE
+        fragmentBaseBinding?.pageIndicatorLayout?.visibility=View.VISIBLE
 
         if (lastMoviesList != null) retrieveNetworkMovies.value = lastMoviesList
         else CommonUtil.replaceFragment(
             BaseFragment(),
             (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
         )
+
     }
 
     fun refreshTopMovies() {
@@ -189,5 +191,13 @@ class MoviesHomeViewModel : ViewModel() {
             BaseFragment(),
             (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
         )
+    }
+
+    fun goToNextPage(){
+
+    }
+
+    fun goToBackPage(){
+
     }
 }

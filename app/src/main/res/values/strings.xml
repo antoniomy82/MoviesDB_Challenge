@@ -4,6 +4,8 @@
     <string name="btnSearch">Search</string>
     <string name="btnMakeFavorite">Make favorite</string>
     <string name="topMovies">TOP MOVIES</string>
+    <string name="next_btn">NEXT</string>
+    <string name="back_btn">BACK</string>
     <string name="favouriteMov">FAVOURITES</string>
     <string name="author">Created by Antonio J Morales</string>
 </resources>

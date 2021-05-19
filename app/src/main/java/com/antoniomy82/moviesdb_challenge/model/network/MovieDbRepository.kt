@@ -14,8 +14,9 @@ class MovieDbRepository {
     private val apiAdapter = ApiAdapter().api
 
     fun getPopularMovies(context: Context, mMoviesList: MutableLiveData<MoviesList>) {
-        listCallback(apiAdapter?.getPopularMovies(), context, mMoviesList)
+        listCallback(apiAdapter?.getPopularMovies("&language=en-US&page=1"), context, mMoviesList)
     }
+
 
 
     fun getSearchMovies(
@@ -66,15 +67,15 @@ class MovieDbRepository {
 
                         Log.d(
                             "__retrieveList ",
-                            i.toString() + " - " + responseObtained?.results?.get(i)?.title
+                            i.toString() + " - " + responseObtained?.results?.get(i)?.title + " page "+responseObtained?.page + " totalPage " + responseObtained?.total_pages
                         )
                     }
 
                     mMoviesList.value = MoviesList(
-                        page = responseObtained?.page,
+                        page = responseObtained?.page.toString(),
                         results = results,
-                        totalPages = responseObtained?.totalPages,
-                        totalResult = responseObtained?.totalResult
+                        total_pages = responseObtained?.total_pages,
+                        total_result = responseObtained?.total_result
                     )
                 }
             }
