@@ -3,6 +3,8 @@ package com.antoniomy82.moviesdb_challenge.viewmodel
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +41,7 @@ class MoviesHomeViewModel : ViewModel() {
     var isTopSelected = true
     var isFavourite: Boolean = false  //To Show & hide favourite button
     var lastMoviesList: MoviesList? = null
+
 
     //Repository variables
     val localRepository = LocalDbRepository()
@@ -194,10 +197,42 @@ class MoviesHomeViewModel : ViewModel() {
     }
 
     fun goToNextPage(){
+        if(CommonUtil.actualPage!=500) {
+            CommonUtil.actualPage = CommonUtil.actualPage + 1
 
+            fragmentBaseBinding?.progressLayout?.visibility = View.VISIBLE
+            fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.GONE
+            fragmentBaseBinding?.rvMovies?.visibility=View.GONE
+
+
+            val runnable = Runnable {
+                CommonUtil.replaceFragment(
+                    BaseFragment(),
+                    (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
+                )
+            }
+
+            Handler(Looper.getMainLooper()).postDelayed(runnable, 200)
+
+        }
     }
 
     fun goToBackPage(){
+        if(CommonUtil.actualPage!=1) {
+            CommonUtil.actualPage = CommonUtil.actualPage - 1
 
+            fragmentBaseBinding?.progressBar?.visibility = View.VISIBLE
+            fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.GONE
+            fragmentBaseBinding?.rvMovies?.visibility=View.GONE
+
+            val runnable = Runnable {
+                CommonUtil.replaceFragment(
+                    BaseFragment(),
+                    (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
+                )
+            }
+
+            Handler(Looper.getMainLooper()).postDelayed(runnable, 200)
+        }
     }
 }

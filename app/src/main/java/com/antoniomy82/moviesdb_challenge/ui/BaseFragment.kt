@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.antoniomy82.moviesdb_challenge.R
 import com.antoniomy82.moviesdb_challenge.databinding.FragmentBaseBinding
+import com.antoniomy82.moviesdb_challenge.utils.CommonUtil
+import com.antoniomy82.moviesdb_challenge.utils.Constant
 import com.antoniomy82.moviesdb_challenge.viewmodel.MoviesHomeViewModel
 
 
@@ -71,7 +73,7 @@ class BaseFragment : Fragment() {
             moviesHomeViewModel?.retrieveNetworkMovies?.let { it1 ->
                 moviesHomeViewModel?.networkRepository?.getPopularMovies(
                     it,
-                    it1
+                    it1,Constant.dynamicUrl+CommonUtil.actualPage
                 )
             }
         }
@@ -96,7 +98,8 @@ class BaseFragment : Fragment() {
                 fragmentBaseBinding?.tabFav?.setBackgroundResource(R.drawable.bg_rounded)
             }
             //hide progress bar
-            fragmentBaseBinding?.progressBar?.visibility = View.GONE
+            fragmentBaseBinding?.progressLayout?.visibility = View.GONE
+            fragmentBaseBinding?.rvMovies?.visibility=View.VISIBLE
         }
 
 

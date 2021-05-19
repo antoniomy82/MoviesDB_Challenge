@@ -49,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -60,11 +61,11 @@
                     android:id="@+id/title_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:fontFamily="sans-serif-medium"
-                    android:maxLines="3"
+                    android:maxLines="10"
                     android:text="@{mMovie.title}"
                     android:textColor="@color/normal_text_color"
                     android:textSize="16sp"
@@ -93,22 +94,28 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/ingredients_recipe"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:padding="5dp"
+
+                android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/overview_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="fill_horizontal|fill_vertical"
                 android:layout_marginStart="6dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="0.02"
-                android:maxLines="3"
+                android:maxLines="10"
                 android:text="@{mMovie.overview}"
                 android:textColor="@color/normal_text_color"
                 android:textSize="16sp"
                 android:textStyle="normal" />
-
-
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

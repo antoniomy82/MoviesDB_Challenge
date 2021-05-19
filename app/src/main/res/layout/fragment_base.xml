@@ -109,6 +109,14 @@
 
         </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <android.widget.ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
@@ -120,8 +128,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="120dp"
             android:indeterminateTint="@color/orange"
-            android:indeterminateTintMode="src_atop"
-            android:visibility="gone" />
+            android:indeterminateTintMode="src_atop" />
+    </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMovies"

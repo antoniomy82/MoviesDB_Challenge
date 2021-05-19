@@ -11,9 +11,12 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.antoniomy82.moviesdb_challenge.R
+import java.util.*
 
 class CommonUtil {
     companion object {
+
+        var actualPage=1
 
         fun replaceFragment(fragment: Fragment?, fragmentManager: FragmentManager) {
             try {
@@ -58,6 +61,10 @@ class CommonUtil {
             }
 
             return false
+        }
+
+        fun getLanguage():String{
+            return Locale.getDefault().toLanguageTag()
         }
 
     }

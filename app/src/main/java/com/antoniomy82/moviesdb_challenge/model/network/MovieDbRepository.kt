@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.antoniomy82.moviesdb_challenge.model.Movie
+import com.antoniomy82.moviesdb_challenge.utils.Constant
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,9 +13,10 @@ import retrofit2.Response
 class MovieDbRepository {
 
     private val apiAdapter = ApiAdapter().api
+    private val mUrl="https://api.themoviedb.org/3/movie/popular?api_key="+Constant.apiKey+"&language=en-US&page=1"
 
-    fun getPopularMovies(context: Context, mMoviesList: MutableLiveData<MoviesList>) {
-        listCallback(apiAdapter?.getPopularMovies("&language=en-US&page=1"), context, mMoviesList)
+    fun getPopularMovies(context: Context, mMoviesList: MutableLiveData<MoviesList>, mUrl:String) {
+        listCallback(apiAdapter?.getPopularMovies(mUrl), context, mMoviesList)
     }
 
 
