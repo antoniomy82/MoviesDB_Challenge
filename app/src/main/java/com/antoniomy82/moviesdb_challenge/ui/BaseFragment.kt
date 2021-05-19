@@ -46,27 +46,58 @@ class BaseFragment : Fragment() {
             }
         } }
 
+        //Load saved list
+        context?.let { moviesHomeViewModel?.savedList?.let { it1 ->
+            moviesHomeViewModel?.localRepository?.getSavedMovies(it,
+                it1
+            )
+        } }
 
-        context?.let { moviesHomeViewModel?.networkRepository?.getPopularMovies(it) }
+        moviesHomeViewModel?.savedList?.observe(viewLifecycleOwner){listSaved->
+            if (listSaved.isNotEmpty()){
+                moviesHomeViewModel?.savedMovies= listSaved as MutableList<String>
+            }
 
-        // MovieDbRepository().getMovieDetails(this,500)
+        }
 
-        moviesHomeViewModel?.networkRepository?.retrieveMovies?.observe(viewLifecycleOwner) { retrieveMovies ->
+        //Call to networkRepository to show Top movies.
+        if(moviesHomeViewModel?.isTopSelected==true)  context?.let { moviesHomeViewModel?.retrieveNetworkMovies?.let { it1 ->
+
+            moviesHomeViewModel?.networkRepository?.getPopularMovies(it,
+                it1
+            )
+        } }
+
+        //Observer to load Top Movies in recycler view
+        moviesHomeViewModel?.retrieveNetworkMovies?.observe(viewLifecycleOwner) { retrieveMovies ->
 
             if (retrieveMovies == null)  Toast.makeText(context,"No data found", Toast.LENGTH_LONG).show()
             else {
+
+                if(moviesHomeViewModel?.isFavourite==false) moviesHomeViewModel?.lastMoviesList=retrieveMovies //Save last top list
+
                 retrieveMovies.results?.let { moviesHomeViewModel?.setMoviesRecyclerViewAdapter(it) }
 
+                //It change button background
                 fragmentBaseBinding?.tabTop?.setBackgroundResource(R.drawable.bg_rounded_selected)
+                fragmentBaseBinding?.tabFav?.setBackgroundResource(R.drawable.bg_rounded)
             }
             //hide progress bar
             fragmentBaseBinding?.progressBar?.visibility = View.GONE
         }
 
 
+        //Observer to load Favourites movies in recycler view
+        moviesHomeViewModel?.savedFavouritesMovies?.observe(viewLifecycleOwner){retrieveSavedMovies->
+            if (retrieveSavedMovies==null) Toast.makeText(context,"No saved movies found", Toast.LENGTH_LONG).show()
+            else{
+                moviesHomeViewModel?.setMoviesRecyclerViewAdapter(retrieveSavedMovies)
 
-
-
+                //It change button background
+                fragmentBaseBinding?.tabTop?.setBackgroundResource(R.drawable.bg_rounded)
+                fragmentBaseBinding?.tabFav?.setBackgroundResource(R.drawable.bg_rounded_selected)
+            }
+        }
 
     }
 }

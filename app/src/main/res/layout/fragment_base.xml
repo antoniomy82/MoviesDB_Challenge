@@ -40,6 +40,7 @@
                 android:text="@string/topMovies"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_rounded"
+                android:onClick="@{()->moviesHomeVM.goToTopMovies()}"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -55,27 +56,17 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:background="@drawable/bg_rounded"
+                android:onClick="@{()->moviesHomeVM.goToFavourites()}"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/movies_title_layout"
+            android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/medium_grey"
             android:orientation="horizontal">
 
-
-            <android.widget.Button
-                android:id="@+id/btnSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="0.8"
-                android:onClick="@{()->moviesHomeVM.searchMovieButton()}"
-                android:text="@string/btnSearch" />
 
             <android.widget.EditText
                 android:id="@+id/etSearch"
@@ -90,6 +81,31 @@
                 android:inputType="text"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
+
+            <ImageView
+                android:id="@+id/btnSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.8"
+                android:src="@drawable/ic_search"
+                android:onClick="@{()->moviesHomeVM.searchMovieButton()}"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/btnRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="0.8"
+                android:src="@drawable/ic_refresh"
+                android:onClick="@{()->moviesHomeVM.refreshTopMovies()}"
+                android:visibility="gone"
+                tools:ignore="ContentDescription"/>
 
         </LinearLayout>
 

@@ -17,17 +17,17 @@ abstract  class MoviesLocalDB: RoomDatabase() {
 
     companion object{
 
-        private var MoviesLocalINSTANCE : MoviesLocalDB?=null
+        private var MoviesINSTANCE : MoviesLocalDB?=null
 
         fun getDatabaseClient(context: Context): MoviesLocalDB? {
 
 
-            if(MoviesLocalINSTANCE !=null) return MoviesLocalINSTANCE
+            if(MoviesINSTANCE !=null) return MoviesINSTANCE
 
             synchronized(MoviesLocalDB::class.java){
-                MoviesLocalINSTANCE =
+                MoviesINSTANCE =
                     Room.databaseBuilder(context, MoviesLocalDB::class.java, "MoviesLocalDB").fallbackToDestructiveMigration().build()
-                return MoviesLocalINSTANCE
+                return MoviesINSTANCE
             }
         }
     }

@@ -72,15 +72,31 @@ class MoviesListAdapter(
 
         //on Click  make favorite button
         holder.adapterMoviesListBinding.btnMakeFavorite.setOnClickListener {
-
+            moviesVM.savedMovies.add(moviesList[position].title)
             holder.adapterMoviesListBinding.btnMakeFavorite.visibility = View.GONE
+            holder.adapterMoviesListBinding.btnDeleteFavorite.visibility = View.GONE
             moviesVM.makeFavoriteButton(moviesList[position])
         }
 
-        if (moviesVM.isFavourite) holder.adapterMoviesListBinding.btnMakeFavorite.visibility =
-            View.GONE
-        else holder.adapterMoviesListBinding.btnMakeFavorite.visibility = View.VISIBLE
+        //delete
+        holder.adapterMoviesListBinding.btnDeleteFavorite.setOnClickListener {
+            moviesVM.deleteFavoriteMovieButton(moviesList[position], position)
+        }
 
+        //Save & delete button visibility
+        val savedValue=moviesVM.savedMovies.find { s->s ==moviesList[position].title}
+
+        if(savedValue !=null && !moviesVM.isTopSelected) {
+            holder.adapterMoviesListBinding.btnMakeFavorite.visibility = View.GONE
+            holder.adapterMoviesListBinding.btnDeleteFavorite.visibility = View.VISIBLE
+        }
+
+        if(savedValue == null && moviesVM.isTopSelected) holder.adapterMoviesListBinding.btnMakeFavorite.visibility = View.VISIBLE
+
+        if(savedValue !=null && moviesVM.isTopSelected) {
+            holder.adapterMoviesListBinding.btnMakeFavorite.visibility = View.GONE
+            holder.adapterMoviesListBinding.btnDeleteFavorite.visibility = View.GONE
+        }
     }
 
 

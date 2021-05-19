@@ -29,7 +29,7 @@ class LocalDbRepository {
 
     }
 
-    fun deleteRecipe(context: Context, title: String) {
+    fun deleteMovie(context: Context, title: String) {
         moviesLocalDB = initializeDB(context)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -43,7 +43,7 @@ class LocalDbRepository {
 
     }
 
-    fun getAllMovies(context: Context, mRecipeList: MutableLiveData<List<Movie>>) {
+    fun getAllMovies(context: Context, moviesList: MutableLiveData<List<Movie>>) {
         moviesLocalDB = initializeDB(context)
 
         val mList = mutableListOf<Movie>()
@@ -60,8 +60,28 @@ class LocalDbRepository {
                     )
                 }
             }
-            mRecipeList.postValue(mList)
+            moviesList.postValue(mList)
         }
+    }
 
+    fun getSavedMovies(context: Context, moviesList: MutableLiveData<List<String>>) {
+        moviesLocalDB = initializeDB(context)
+
+        val mList = mutableListOf<String>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val mSize = moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.size ?: 0
+
+            for (i in 0 until mSize) {
+                moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.get(i)?.let {
+                    mList.add(
+                        i,
+                        it.title
+                    )
+                }
+            }
+            moviesList.postValue(mList)
+        }
     }
 }

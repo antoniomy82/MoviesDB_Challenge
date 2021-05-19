@@ -5,4 +5,5 @@
     <string name="btnMakeFavorite">Make favorite</string>
     <string name="topMovies">TOP MOVIES</string>
     <string name="favouriteMov">FAVOURITES</string>
+    <string name="author">Created by Antonio J Morales</string>
 </resources>
