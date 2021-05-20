@@ -6,7 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="red">#ff4040</color>
+    <color name="red">#e57373</color>
 
 
     <!--Movies color palette-->
@@ -21,7 +21,7 @@
     <color name="primary_color">#CCCCCC</color>
     <color name="orange">#f35412</color>
     <color name="title_text">#666666</color>
-    <color name="classic_blue">#0083ff</color>
+    <color name="classic_blue">#3B83BD</color>
 
 
     <!-- Big sur Monochromatic Color -->

@@ -41,6 +41,7 @@ class MoviesHomeViewModel : ViewModel() {
     var isTopSelected = true
     var isFavourite: Boolean = false  //To Show & hide favourite button
     var lastMoviesList: MoviesList? = null
+    private var searchMode = false
 
 
     //Repository variables
@@ -102,7 +103,7 @@ class MoviesHomeViewModel : ViewModel() {
 
     fun makeFavoriteButton(mMovie: Movie) {
 
-        Toast.makeText(frgBaseContext?.get(), "Movie saved in favorite list", Toast.LENGTH_LONG)
+        Toast.makeText(frgBaseContext?.get(), frgBaseContext?.get()?.getString(R.string.movie_saved_db), Toast.LENGTH_LONG)
             .show()
 
         frgBaseContext?.get()?.let { localRepository.insertMovie(it, mMovie) }
@@ -121,18 +122,20 @@ class MoviesHomeViewModel : ViewModel() {
         recyclerView?.get()?.adapter?.notifyItemRemoved(position)
         recyclerView?.get()?.adapter?.notifyDataSetChanged()
 
-        Toast.makeText(frgBaseContext?.get(), "Deleted movie of favorite list", Toast.LENGTH_LONG)
+        Toast.makeText(frgBaseContext?.get(), frgBaseContext?.get()?.getString(R.string.delete_movie), Toast.LENGTH_LONG)
             .show()
     }
 
 
     fun searchMovieButton() {
 
-        val lastSearch = fragmentBaseBinding?.etSearch?.text.toString()
+        CommonUtil.actualPage = 1
+        searchMode = true
 
-        if (lastSearch.isBlank()) {
-            fragmentBaseBinding?.etSearch?.error = "The search cannot be empty"
-            Toast.makeText(frgBaseContext?.get(),"The search cannot be empty", Toast.LENGTH_LONG).show()
+        if (fragmentBaseBinding?.etSearch?.text.toString().isBlank()) {
+            fragmentBaseBinding?.etSearch?.error = frgBaseContext?.get()?.getString(R.string.error_no_empty)
+            Toast.makeText(frgBaseContext?.get(), frgBaseContext?.get()?.getString(R.string.error_no_empty), Toast.LENGTH_LONG)
+                .show()
         } else {
             fragmentBaseBinding?.btnSearch?.visibility = View.GONE
             fragmentBaseBinding?.btnRefresh?.visibility = View.VISIBLE
@@ -153,12 +156,12 @@ class MoviesHomeViewModel : ViewModel() {
             //Call to network repository to retrieve data
             frgBaseContext?.get()?.let { it1 ->
                 if (CommonUtil.isOnline(it1)) networkRepository.getSearchMovies(
-                    lastSearch,
+                    fragmentBaseBinding?.etSearch?.text.toString(),
                     it1,
                     retrieveNetworkMovies
                 )
                 else {
-                    Toast.makeText(it1, "No internet connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(it1, frgBaseContext?.get()?.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
                     fragmentBaseBinding?.progressBar?.visibility = View.GONE
                 }
             }
@@ -169,13 +172,13 @@ class MoviesHomeViewModel : ViewModel() {
         isTopSelected = false
         frgBaseContext?.get()?.let { localRepository.getAllMovies(it, savedFavouritesMovies) }
         fragmentBaseBinding?.searchLayout?.visibility = View.GONE
-        fragmentBaseBinding?.pageIndicatorLayout?.visibility=View.GONE
+        fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.GONE
     }
 
     fun goToTopMovies() {
         isTopSelected = true
         fragmentBaseBinding?.searchLayout?.visibility = View.VISIBLE
-        fragmentBaseBinding?.pageIndicatorLayout?.visibility=View.VISIBLE
+        fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.VISIBLE
 
         if (lastMoviesList != null) retrieveNetworkMovies.value = lastMoviesList
         else CommonUtil.replaceFragment(
@@ -190,49 +193,68 @@ class MoviesHomeViewModel : ViewModel() {
         fragmentBaseBinding?.btnSearch?.visibility = View.VISIBLE
         fragmentBaseBinding?.btnRefresh?.visibility = View.GONE
 
+        CommonUtil.actualPage = 1
+
         CommonUtil.replaceFragment(
             BaseFragment(),
             (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
         )
     }
 
-    fun goToNextPage(){
-        if(CommonUtil.actualPage!=500) {
-            CommonUtil.actualPage = CommonUtil.actualPage + 1
 
-            fragmentBaseBinding?.progressLayout?.visibility = View.VISIBLE
-            fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.GONE
-            fragmentBaseBinding?.rvMovies?.visibility=View.GONE
+    fun goToPage(nextPage: Boolean) {
 
-
-            val runnable = Runnable {
-                CommonUtil.replaceFragment(
-                    BaseFragment(),
-                    (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
-                )
+        when (nextPage) {
+            true -> {
+                if (CommonUtil.actualPage <= CommonUtil.totalPages - 1) {
+                    CommonUtil.actualPage = CommonUtil.actualPage + 1
+                    goToPageLogic()
+                }
             }
-
-            Handler(Looper.getMainLooper()).postDelayed(runnable, 200)
-
+            false -> {
+                if (CommonUtil.actualPage > 1) {
+                    CommonUtil.actualPage = CommonUtil.actualPage - 1
+                    goToPageLogic()
+                }
+            }
         }
     }
 
-    fun goToBackPage(){
-        if(CommonUtil.actualPage!=1) {
-            CommonUtil.actualPage = CommonUtil.actualPage - 1
+    private fun goToPageLogic() {
 
-            fragmentBaseBinding?.progressBar?.visibility = View.VISIBLE
-            fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.GONE
-            fragmentBaseBinding?.rvMovies?.visibility=View.GONE
+        fragmentBaseBinding?.progressBar?.visibility = View.VISIBLE
+        fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.GONE
+        fragmentBaseBinding?.rvMovies?.visibility = View.GONE
 
-            val runnable = Runnable {
-                CommonUtil.replaceFragment(
-                    BaseFragment(),
-                    (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
-                )
+        val runnable = Runnable {
+            when (searchMode) {
+
+                true -> {
+                    frgBaseContext?.get()?.let { it1 ->
+                        fragmentBaseBinding?.pageIndicatorLayout?.visibility = View.VISIBLE
+
+                        if (CommonUtil.isOnline(it1)) networkRepository.getSearchMovies(
+                            fragmentBaseBinding?.etSearch?.text.toString(),
+                            it1,
+                            retrieveNetworkMovies
+                        )
+                        else {
+                            Toast.makeText(it1, frgBaseContext?.get()?.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+                            fragmentBaseBinding?.progressBar?.visibility = View.GONE
+                        }
+                    }
+                }
+                false -> {
+                    CommonUtil.replaceFragment(
+                        BaseFragment(),
+                        (frgBaseContext?.get() as AppCompatActivity).supportFragmentManager
+                    )
+                }
             }
-
-            Handler(Looper.getMainLooper()).postDelayed(runnable, 200)
         }
+
+        Handler(Looper.getMainLooper()).postDelayed(runnable, 250)
     }
+
+
 }

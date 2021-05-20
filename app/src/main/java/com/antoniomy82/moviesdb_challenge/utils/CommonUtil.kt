@@ -14,9 +14,12 @@ import com.antoniomy82.moviesdb_challenge.R
 import java.util.*
 
 class CommonUtil {
+
+
     companion object {
 
-        var actualPage=1
+        var actualPage = 1
+        var totalPages = 500
 
         fun replaceFragment(fragment: Fragment?, fragmentManager: FragmentManager) {
             try {
@@ -63,7 +66,7 @@ class CommonUtil {
             return false
         }
 
-        fun getLanguage():String{
+        fun getLanguage(): String {
             return Locale.getDefault().toLanguageTag()
         }
 

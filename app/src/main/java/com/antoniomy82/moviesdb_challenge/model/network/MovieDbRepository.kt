@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.antoniomy82.moviesdb_challenge.R
 import com.antoniomy82.moviesdb_challenge.model.Movie
+import com.antoniomy82.moviesdb_challenge.utils.CommonUtil
 import com.antoniomy82.moviesdb_challenge.utils.Constant
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,12 +15,11 @@ import retrofit2.Response
 class MovieDbRepository {
 
     private val apiAdapter = ApiAdapter().api
-    private val mUrl="https://api.themoviedb.org/3/movie/popular?api_key="+Constant.apiKey+"&language=en-US&page=1"
 
-    fun getPopularMovies(context: Context, mMoviesList: MutableLiveData<MoviesList>, mUrl:String) {
+
+    fun getPopularMovies(context: Context, mMoviesList: MutableLiveData<MoviesList>, mUrl: String) {
         listCallback(apiAdapter?.getPopularMovies(mUrl), context, mMoviesList)
     }
-
 
 
     fun getSearchMovies(
@@ -26,7 +27,9 @@ class MovieDbRepository {
         context: Context,
         mMoviesList: MutableLiveData<MoviesList>
     ) {
-        listCallback(apiAdapter?.getSearchMovies(search), context, mMoviesList)
+        val languageSearch="https://api.tmdb.org/3/search/movie?api_key=${Constant.apiKey}&query="+search+"&language="+CommonUtil.getLanguage()+"&page="+CommonUtil.actualPage
+        Log.d("Url ", languageSearch)
+        listCallback(apiAdapter?.getSearchMovies(languageSearch), context, mMoviesList)
     }
 
 
@@ -46,7 +49,9 @@ class MovieDbRepository {
                     val results = mutableListOf<Movie>()
 
                     val resultSize = responseObtained?.results?.size ?: 0
+
                     for (i in 0 until resultSize) {
+
                         responseObtained?.results?.get(i)?.title?.let {
                             Movie(
                                 responseObtained.results?.get(i)?.poster_path,
@@ -69,9 +74,10 @@ class MovieDbRepository {
 
                         Log.d(
                             "__retrieveList ",
-                            i.toString() + " - " + responseObtained?.results?.get(i)?.title + " page "+responseObtained?.page + " totalPage " + responseObtained?.total_pages
+                            i.toString() + " - " + responseObtained?.results?.get(i)?.title + " page " + responseObtained?.page + " totalPage " + responseObtained?.total_pages
                         )
                     }
+
 
                     mMoviesList.value = MoviesList(
                         page = responseObtained?.page.toString(),
@@ -79,12 +85,29 @@ class MovieDbRepository {
                         total_pages = responseObtained?.total_pages,
                         total_result = responseObtained?.total_result
                     )
+
+                    if (resultSize == 0) {
+                        results.clear()
+                        results.add(
+                            Movie(
+                                "",
+                                context.getString(R.string.try_another_movie),
+                                "",
+                                "",
+                                "",
+                                context.getString(R.string.no_search_found)
+                            )
+                        )
+                        mMoviesList.value = MoviesList("0", results,"0")
+                    }
+
                 }
+
             }
 
             override fun onFailure(call: Call<MoviesList>, t: Throwable) {
                 Log.e("__error", t.toString())
-                Toast.makeText(context, "ERROR API SERVICES", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.error_api_services), Toast.LENGTH_LONG).show()
             }
         })
     }

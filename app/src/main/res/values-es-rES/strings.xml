@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">A.Morales MovieDB</string>
+    <string name="title_bar">Gigimovies App</string>
+    <string name="btnSearch">Buscar</string>
+    <string name="btnMakeFavorite">Añadir a favoritos</string>
+    <string name="topMovies">PELICULAS POPULARES</string>
+    <string name="next_btn">SIGUIENTE</string>
+    <string name="back_btn">&#160;&#160;&#160;&#160;ANTERIOR</string>
+    <string name="favouriteMov">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FAVORITOS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
+    <string name="author">Creado por Antonio J Morales</string>
+    <string name="no_search_found" tools:ignore="TypographyEllipsis">Ohh...Búsqueda no encontrada </string>
+    <string name="try_another_movie">Prueba con otra película</string>
+    <string name="error_api_services">Error en el Servicio (API)</string>
+    <string name="no_saved_movies">"No se hay peliculas guardadas",</string>
+    <string name="no_data_found">"No se han encontrado datos</string>
+    <string name="movie_saved_db">Película guardada en favoritos</string>
+    <string name="delete_movie">Película borrada de favoritos</string>
+    <string name="error_no_empty">El campo de búsqueda no puede estar vacío</string>
+    <string name="no_internet">No hay conexión a internet</string>
+</resources>

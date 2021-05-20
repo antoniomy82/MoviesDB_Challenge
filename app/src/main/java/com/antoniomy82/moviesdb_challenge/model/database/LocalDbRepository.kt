@@ -13,7 +13,6 @@ class LocalDbRepository {
     //DB instance
     private var moviesLocalDB: MoviesLocalDB? = null
 
-
     private fun initializeDB(context: Context): MoviesLocalDB? {
         return MoviesLocalDB.getDatabaseClient(context)
     }

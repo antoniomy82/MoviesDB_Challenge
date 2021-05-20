@@ -7,7 +7,6 @@ import com.antoniomy82.moviesdb_challenge.utils.CommonUtil
 
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

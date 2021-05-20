@@ -71,9 +71,10 @@ class BaseFragment : Fragment() {
         //Call to networkRepository to show Top movies.
         if (moviesHomeViewModel?.isTopSelected == true) context?.let {
             moviesHomeViewModel?.retrieveNetworkMovies?.let { it1 ->
+
                 moviesHomeViewModel?.networkRepository?.getPopularMovies(
                     it,
-                    it1,Constant.dynamicUrl+CommonUtil.actualPage
+                    it1, Constant.dynamicUrl + CommonUtil.actualPage
                 )
             }
         }
@@ -81,12 +82,22 @@ class BaseFragment : Fragment() {
         //Observer to load Top Movies in recycler view
         moviesHomeViewModel?.retrieveNetworkMovies?.observe(viewLifecycleOwner) { retrieveMovies ->
 
-            if (retrieveMovies == null) Toast.makeText(context, "No data found", Toast.LENGTH_LONG)
+            if (retrieveMovies == null) Toast.makeText(
+                context,
+                context?.getString(R.string.no_data_found),
+                Toast.LENGTH_LONG
+            )
                 .show()
             else {
+                CommonUtil.actualPage = retrieveMovies.page?.toInt() ?: 0
+                CommonUtil.totalPages = retrieveMovies.total_pages?.toInt() ?: 0
 
                 val pageIndicator = retrieveMovies.page + " / " + retrieveMovies.total_pages
                 fragmentBaseBinding?.pageIndicator?.text = pageIndicator
+
+                if (CommonUtil.actualPage == 0) fragmentBaseBinding?.pageIndicatorLayout?.visibility =
+                    View.GONE
+
 
                 if (moviesHomeViewModel?.isFavourite == false) moviesHomeViewModel?.lastMoviesList =
                     retrieveMovies //Save last top list
@@ -98,8 +109,8 @@ class BaseFragment : Fragment() {
                 fragmentBaseBinding?.tabFav?.setBackgroundResource(R.drawable.bg_rounded)
             }
             //hide progress bar
-            fragmentBaseBinding?.progressLayout?.visibility = View.GONE
-            fragmentBaseBinding?.rvMovies?.visibility=View.VISIBLE
+            fragmentBaseBinding?.progressBar?.visibility = View.GONE
+            fragmentBaseBinding?.rvMovies?.visibility = View.VISIBLE
         }
 
 
@@ -107,7 +118,7 @@ class BaseFragment : Fragment() {
         moviesHomeViewModel?.savedFavouritesMovies?.observe(viewLifecycleOwner) { retrieveSavedMovies ->
             if (retrieveSavedMovies == null) Toast.makeText(
                 context,
-                "No saved movies found",
+                context?.getString(R.string.no_saved_movies),
                 Toast.LENGTH_LONG
             ).show()
             else {

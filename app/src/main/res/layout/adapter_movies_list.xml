@@ -79,6 +79,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_weight="0"
                     android:src="@drawable/ic_favorite"
+                    android:visibility="gone"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
@@ -98,7 +99,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-
                 android:orientation="vertical">
 
             <TextView
@@ -110,7 +110,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="0.02"
-                android:maxLines="10"
+                android:maxLines="30"
                 android:text="@{mMovie.overview}"
                 android:textColor="@color/normal_text_color"
                 android:textSize="16sp"
