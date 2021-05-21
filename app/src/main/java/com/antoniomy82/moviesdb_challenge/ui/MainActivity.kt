@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.antoniomy82.moviesdb_challenge.R
 import com.antoniomy82.moviesdb_challenge.utils.CommonUtil
 
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
