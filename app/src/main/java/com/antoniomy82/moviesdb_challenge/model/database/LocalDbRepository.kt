@@ -18,69 +18,95 @@ class LocalDbRepository {
     }
 
 
-    fun insertMovie(context: Context, movie: Movie) {
+    fun insertMovie(context: Context? = null, movie: Movie? = null): Boolean {
 
-        moviesLocalDB = initializeDB(context)
+        var mockTest = false
 
-        CoroutineScope(Dispatchers.IO).launch {
-            moviesLocalDB?.moviesLocalDAO()?.insertMovie(movie)
-        }
+        if (context != null && movie != null) {
+            moviesLocalDB = initializeDB(context)
 
-    }
-
-    fun deleteMovie(context: Context, title: String) {
-        moviesLocalDB = initializeDB(context)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                moviesLocalDB?.moviesLocalDAO()?.deleteMovie(title)
-            } catch (e: Exception) {
-                Log.e("__deleteError", e.toString())
+            CoroutineScope(Dispatchers.IO).launch {
+                moviesLocalDB?.moviesLocalDAO()?.insertMovie(movie)
             }
+        } else mockTest = true
 
-        }
+        return mockTest
 
     }
 
-    fun getAllMovies(context: Context, moviesList: MutableLiveData<List<Movie>>) {
-        moviesLocalDB = initializeDB(context)
+    fun deleteMovie(context: Context? = null, title: String? = null):Boolean {
 
-        val mList = mutableListOf<Movie>()
+        var mockTest = false
 
-        CoroutineScope(Dispatchers.IO).launch {
+        if (context != null && title != null) {
+            moviesLocalDB = initializeDB(context)
 
-            val mSize = moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.size ?: 0
-
-            for (i in 0 until mSize) {
-                moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.get(i)?.let {
-                    mList.add(
-                        i,
-                        it
-                    )
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    moviesLocalDB?.moviesLocalDAO()?.deleteMovie(title)
+                } catch (e: Exception) {
+                    Log.e("__deleteError", e.toString())
                 }
+
             }
-            moviesList.postValue(mList)
+        } else mockTest = true
+
+        return mockTest
+
+    }
+
+    fun getAllMovies(context: Context? = null, moviesList: MutableLiveData<List<Movie>>? = null) {
+
+        if (moviesList != null && context != null) {
+            moviesLocalDB = initializeDB(context)
+
+            val mList = mutableListOf<Movie>()
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val mSize = moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.size ?: 0
+
+                for (i in 0 until mSize) {
+                    moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.get(i)?.let {
+                        mList.add(
+                            i,
+                            it
+                        )
+                    }
+                }
+                moviesList.postValue(mList)
+            }
         }
     }
 
-    fun getSavedMovies(context: Context, moviesList: MutableLiveData<List<String>>) {
-        moviesLocalDB = initializeDB(context)
+    fun getSavedMovies(
+        context: Context? = null,
+        moviesList: MutableLiveData<List<String>>? = null
+    ): Boolean {
 
-        val mList = mutableListOf<String>()
+        var mockTest = false
 
-        CoroutineScope(Dispatchers.IO).launch {
+        if (moviesList != null && context != null) {
 
-            val mSize = moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.size ?: 0
+            moviesLocalDB = initializeDB(context)
 
-            for (i in 0 until mSize) {
-                moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.get(i)?.let {
-                    mList.add(
-                        i,
-                        it.title
-                    )
+            val mList = mutableListOf<String>()
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val mSize = moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.size ?: 0
+
+                for (i in 0 until mSize) {
+                    moviesLocalDB?.moviesLocalDAO()?.getAllMovies()?.get(i)?.let {
+                        mList.add(
+                            i,
+                            it.title
+                        )
+                    }
                 }
+                moviesList.postValue(mList)
             }
-            moviesList.postValue(mList)
-        }
+        } else mockTest = true
+        return mockTest
     }
 }

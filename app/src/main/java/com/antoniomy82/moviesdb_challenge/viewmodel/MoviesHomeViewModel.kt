@@ -27,10 +27,10 @@ class MoviesHomeViewModel : ViewModel() {
 
     //Base Fragment parameters
     private var frgBaseActivity: WeakReference<Activity>? = null
-    private var frgBaseContext: WeakReference<Context>? = null
     private var frgBaseView: WeakReference<View>? = null
     private var mainBundle: Bundle? = null
     private var fragmentBaseBinding: FragmentBaseBinding? = null
+    var frgBaseContext: WeakReference<Context>? = null
 
     //Recycler view variables
     private var recyclerView: WeakReference<RecyclerView>? = null

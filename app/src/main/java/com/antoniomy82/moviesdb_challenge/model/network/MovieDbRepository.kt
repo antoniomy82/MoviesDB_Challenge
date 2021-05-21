@@ -14,22 +14,40 @@ import retrofit2.Response
 
 class MovieDbRepository {
 
-    private val apiAdapter = ApiAdapter().api
 
+    fun getPopularMovies(
+        context: Context? = null,
+        mMoviesList: MutableLiveData<MoviesList>? = null,
+        mUrl: String? = null
+    ): Int {
 
-    fun getPopularMovies(context: Context, mMoviesList: MutableLiveData<MoviesList>, mUrl: String) {
-        listCallback(apiAdapter?.getPopularMovies(mUrl), context, mMoviesList)
+        var mockTest = 0
+
+        if (mUrl != null && context != null && mMoviesList != null) listCallback(
+            ApiAdapter().api?.getPopularMovies(
+                mUrl
+            ), context, mMoviesList
+        )
+        else mockTest = 500
+
+        return mockTest
     }
 
 
     fun getSearchMovies(
-        search: String,
-        context: Context,
-        mMoviesList: MutableLiveData<MoviesList>
-    ) {
-        val languageSearch="https://api.tmdb.org/3/search/movie?api_key=${Constant.apiKey}&query="+search+"&language="+CommonUtil.getLanguage()+"&page="+CommonUtil.actualPage
-        Log.d("Url ", languageSearch)
-        listCallback(apiAdapter?.getSearchMovies(languageSearch), context, mMoviesList)
+        search: String? = null,
+        context: Context? = null,
+        mMoviesList: MutableLiveData<MoviesList>? = null
+    ): Boolean {
+        var mockTest = false
+
+        if (search != null && context != null && mMoviesList != null) {
+            val languageSearch =
+                "https://api.tmdb.org/3/search/movie?api_key=${Constant.apiKey}&query=" + search + "&language=" + CommonUtil.getLanguage() + "&page=" + CommonUtil.actualPage
+            listCallback(ApiAdapter().api?.getSearchMovies(languageSearch), context, mMoviesList)
+        } else mockTest = true
+
+        return mockTest
     }
 
 
@@ -39,6 +57,9 @@ class MovieDbRepository {
         mMoviesList: MutableLiveData<MoviesList>
     ) {
 
+        val results = mutableListOf<Movie>()
+
+
         call?.enqueue(object : Callback<MoviesList> {
             override fun onResponse(call: Call<MoviesList>, response: Response<MoviesList>) {
 
@@ -46,7 +67,6 @@ class MovieDbRepository {
 
                     val responseObtained = response.body()
 
-                    val results = mutableListOf<Movie>()
 
                     val resultSize = responseObtained?.results?.size ?: 0
 
@@ -86,6 +106,7 @@ class MovieDbRepository {
                         total_result = responseObtained?.total_result
                     )
 
+
                     if (resultSize == 0) {
                         results.clear()
                         results.add(
@@ -98,7 +119,7 @@ class MovieDbRepository {
                                 context.getString(R.string.no_search_found)
                             )
                         )
-                        mMoviesList.value = MoviesList("0", results,"0")
+                        mMoviesList.value = MoviesList("0", results, "0")
                     }
 
                 }
@@ -107,8 +128,13 @@ class MovieDbRepository {
 
             override fun onFailure(call: Call<MoviesList>, t: Throwable) {
                 Log.e("__error", t.toString())
-                Toast.makeText(context, context.getString(R.string.error_api_services), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_api_services),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         })
     }
+
 }

@@ -16,10 +16,11 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="6dp"
             android:layout_weight="0.5"
+            android:gravity="center_horizontal|center_vertical"
             android:fontFamily="sans-serif"
             android:text="@string/title_bar"
             android:textColor="@color/title_text"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -27,13 +28,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="0.5"
             android:fontFamily="sans-serif"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/author"
             android:textColor="@color/classic_blue"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
     </LinearLayout>
