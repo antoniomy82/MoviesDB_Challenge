@@ -4,12 +4,13 @@ Kotlin app to show movies with "The Movie DB" API.
 MoviesDB_Challenge is designed in Kotlin, with MVVM and Jetpack architecture such as Room, LiveData, Courotines, Databinding, ktx. Piccasso, Retrofit2 and Gson have also been used.
 
 The application is in Spanish and English, it changes automatically according to the regional settings of your smartphone.
-La App está preparada para trabajar tanto en modo apaisado, como retrato. 
+
+The App is prepared to work in both landscape and portrait mode.
 
 ## Technical specifications
 
 
-	- Kotlin 1.3 programming language.
+	- Kotlin 1.4 programming language.
 	
 	- Development enviroment:
 	    - Android Studio 4.2
