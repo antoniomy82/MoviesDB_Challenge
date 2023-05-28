@@ -17,8 +17,8 @@ import com.antoniomy82.moviesdb_challenge.viewmodel.MoviesHomeViewModel
 
 class BaseFragment : Fragment() {
 
-    var fragmentBaseBinding: FragmentBaseBinding? = null
-    var moviesHomeViewModel: MoviesHomeViewModel? = null
+    private var fragmentBaseBinding: FragmentBaseBinding? = null
+    private var moviesHomeViewModel: MoviesHomeViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,6 @@ class BaseFragment : Fragment() {
         fragmentBaseBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false)
 
-        retainInstance = true
 
         return fragmentBaseBinding?.root
     }
